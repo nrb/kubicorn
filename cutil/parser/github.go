@@ -19,7 +19,7 @@ import "fmt"
 const (
 	githubProtocol = "https://"
 	githubRepo     = "raw.githubusercontent.com/kris-nova/kubicorn"
-	githubBranch   = "master"
+	githubBranch   = "weave-do"
 )
 
 // getGitHubUrl will build a query-able URL from a bootstrap script that we can parse in at runtime.

@@ -47,8 +47,47 @@ func NewCentosCluster(name string) *cluster.Cluster {
 				Image:    "centos-7-x64",
 				Size:     "2gb",
 				BootstrapScripts: []string{
-					"bootstrap/vpn/openvpnMaster-centos.sh",
+					//"bootstrap/vpn/openvpnMaster-centos.sh",
 					"bootstrap/digitalocean_k8s_centos_7_master.sh",
+				},
+				Firewalls: []*cluster.Firewall{
+					{
+						Name: fmt.Sprintf("%s-master", name),
+						IngressRules: []*cluster.IngressRule{
+							{
+								IngressToPort:   "22",
+								IngressSource:   "0.0.0.0/0",
+								IngressProtocol: "tcp",
+							},
+							{
+								IngressToPort:   "443",
+								IngressSource:   "0.0.0.0/0",
+								IngressProtocol: "tcp",
+							},
+							{
+								IngressToPort:   "1194",
+								IngressSource:   "0.0.0.0/0",
+								IngressProtocol: "udp",
+							},
+							{
+								IngressToPort:   "all",
+								IngressSource:   fmt.Sprintf("%s-node", name),
+								IngressProtocol: "tcp",
+							},
+						},
+						EgressRules: []*cluster.EgressRule{
+							{
+								EgressToPort:      "all", // By default all egress from VM
+								EgressDestination: "0.0.0.0/0",
+								EgressProtocol:    "tcp",
+							},
+							{
+								EgressToPort:      "all", // By default all egress from VM
+								EgressDestination: "0.0.0.0/0",
+								EgressProtocol:    "udp",
+							},
+						},
+					},
 				},
 			},
 			{
@@ -58,8 +97,42 @@ func NewCentosCluster(name string) *cluster.Cluster {
 				Image:    "centos-7-x64",
 				Size:     "1gb",
 				BootstrapScripts: []string{
-					"bootstrap/vpn/openvpnNode-centos.sh",
+					//"bootstrap/vpn/openvpnNode-centos.sh",
 					"bootstrap/digitalocean_k8s_centos_7_node.sh",
+				},
+				Firewalls: []*cluster.Firewall{
+					{
+						Name: fmt.Sprintf("%s-node", name),
+						IngressRules: []*cluster.IngressRule{
+							{
+								IngressToPort:   "22",
+								IngressSource:   "0.0.0.0/0",
+								IngressProtocol: "tcp",
+							},
+							{
+								IngressToPort:   "1194",
+								IngressSource:   "0.0.0.0/0",
+								IngressProtocol: "udp",
+							},
+							{
+								IngressToPort:   "all",
+								IngressSource:   fmt.Sprintf("%s-master", name),
+								IngressProtocol: "tcp",
+							},
+						},
+						EgressRules: []*cluster.EgressRule{
+							{
+								EgressToPort:      "all", // By default all egress from VM
+								EgressDestination: "0.0.0.0/0",
+								EgressProtocol:    "tcp",
+							},
+							{
+								EgressToPort:      "all", // By default all egress from VM
+								EgressDestination: "0.0.0.0/0",
+								EgressProtocol:    "udp",
+							},
+						},
+					},
 				},
 			},
 		},

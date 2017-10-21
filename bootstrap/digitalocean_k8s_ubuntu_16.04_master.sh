@@ -23,8 +23,7 @@ apt-get install -y \
 systemctl enable docker
 systemctl start docker
 
-PRIVATEIP=$(ip addr show dev tun0 | awk '/inet / {print $2}' | cut -d"/" -f1)
-echo $PRIVATEIP > /tmp/.ip
+PRIVATEIP=$(curl http://169.254.169.254/metadata/v1/interfaces/private/0/ipv4/address)
 PUBLICIP=$(curl ifconfig.me)
 
 TOKEN=$(cat /etc/kubicorn/cluster.json | jq -r '.values.itemMap.INJECTEDTOKEN')
@@ -33,12 +32,14 @@ PORT=$(cat /etc/kubicorn/cluster.json | jq -r '.values.itemMap.INJECTEDPORT | to
 kubeadm reset
 kubeadm init --apiserver-bind-port ${PORT} --token ${TOKEN}  --apiserver-advertise-address ${PUBLICIP} --apiserver-cert-extra-sans ${PUBLICIP} ${PRIVATEIP}
 
-
 kubectl apply \
   -f http://docs.projectcalico.org/v2.3/getting-started/kubernetes/installation/hosted/kubeadm/1.6/calico.yaml \
+  --kubeconfig /etc/kubernetes/admin.conf
+
+kubectl apply \
+  -f https://raw.githubusercontent.com/kris-nova/kubicorn/weave-do/bootstrap/vpn/weave-kube-1.6 \
   --kubeconfig /etc/kubernetes/admin.conf
 
 # Root
 mkdir -p ~/.kube
 cp /etc/kubernetes/admin.conf ~/.kube/config
-
