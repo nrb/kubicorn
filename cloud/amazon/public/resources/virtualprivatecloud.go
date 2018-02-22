@@ -77,6 +77,7 @@ func (r *Vpc) Expected(immutable *cluster.Cluster) (*cluster.Cluster, cloud.Reso
 			Tags: map[string]string{
 				"Name":              r.Name,
 				"KubernetesCluster": immutable.Name,
+				"Creator":           "kubicorn",
 			},
 			Identifier: immutable.Network.Identifier,
 			Name:       r.Name,

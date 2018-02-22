@@ -67,6 +67,7 @@ func (r *KeyPair) Actual(immutable *cluster.Cluster) (*cluster.Cluster, cloud.Re
 		newResource.Tags = map[string]string{
 			"Name":              r.Name,
 			"KubernetesCluster": immutable.Name,
+			"Creator":           "kubicorn",
 		}
 	}
 	newCluster := r.immutableRender(newResource, immutable)

@@ -75,6 +75,7 @@ func (r *InternetGateway) Expected(immutable *cluster.Cluster) (*cluster.Cluster
 				"Name":                           r.Name,
 				"KubernetesCluster":              immutable.Name,
 				"kubicorn-internet-gateway-name": r.Name,
+				"Creator":                        "kubicorn",
 			},
 			Identifier: immutable.Network.InternetGW.Identifier,
 			Name:       r.Name,

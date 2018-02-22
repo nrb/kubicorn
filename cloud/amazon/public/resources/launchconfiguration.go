@@ -81,6 +81,7 @@ func (r *Lc) Actual(immutable *cluster.Cluster) (*cluster.Cluster, cloud.Resourc
 		newResource.Tags = map[string]string{
 			"Name":              r.Name,
 			"KubernetesCluster": immutable.Name,
+			"Creator":           "kubicorn",
 		}
 	} else {
 		newResource.Image = r.ServerPool.Image

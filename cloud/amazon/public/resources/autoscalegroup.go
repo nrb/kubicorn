@@ -83,6 +83,7 @@ func (r *Asg) Expected(immutable *cluster.Cluster) (*cluster.Cluster, cloud.Reso
 			Tags: map[string]string{
 				"Name":              r.Name,
 				"KubernetesCluster": immutable.Name,
+				"Creator":           "kubicorn",
 			},
 			Identifier: r.ServerPool.Identifier,
 			Name:       r.Name,

@@ -82,6 +82,7 @@ func (r *InstanceProfile) Actual(immutable *cluster.Cluster) (*cluster.Cluster, 
 						Tags: map[string]string{
 							"Name":              r.Name,
 							"KubernetesCluster": immutable.Name,
+							"Creator":           "kubicorn",
 						},
 						Name: *role.RoleName,
 					},

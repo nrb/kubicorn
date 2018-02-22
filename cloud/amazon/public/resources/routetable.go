@@ -79,6 +79,7 @@ func (r *RouteTable) Expected(immutable *cluster.Cluster) (*cluster.Cluster, clo
 				"Name":                             r.Name,
 				"KubernetesCluster":                immutable.Name,
 				"kubicorn-route-table-subnet-pair": r.ClusterSubnet.Name,
+				"Creator":                          "kubicorn",
 			},
 			Name:       r.ServerPool.Name,
 			Identifier: r.ServerPool.Name,

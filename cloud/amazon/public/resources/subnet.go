@@ -87,6 +87,7 @@ func (r *Subnet) Expected(immutable *cluster.Cluster) (*cluster.Cluster, cloud.R
 			Tags: map[string]string{
 				"Name":              r.Name,
 				"KubernetesCluster": immutable.Name,
+				"Creator":           "kubicorn",
 			},
 			Identifier: r.ClusterSubnet.Identifier,
 			Name:       r.Name,

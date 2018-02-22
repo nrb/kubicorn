@@ -125,6 +125,7 @@ func (r *SecurityGroup) Expected(immutable *cluster.Cluster) (*cluster.Cluster, 
 			Tags: map[string]string{
 				"Name":              r.Name,
 				"KubernetesCluster": immutable.Name,
+				"Creator":           "kubicorn",
 			},
 			Identifier: r.Firewall.Identifier,
 			Name:       r.Firewall.Name,
